@@ -1,6 +1,6 @@
 <?php
 
-namespace Danilowa\LaravelQuotesMaster;
+namespace Danilowa\LaravelQuotesManagement;
 
 use Illuminate\Support\ServiceProvider;
 

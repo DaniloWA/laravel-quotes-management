@@ -1,15 +1,16 @@
 <?php
 
-namespace Danilowa\LaravelQuotesMaster;
+namespace Danilowa\LaravelQuotesManagement;
 
-use Illuminate\Support\Facades\DB;
+use App\Models\Quotes as ModelQuotes;
 use GuzzleHttp\Client;
 
 
 class Quotes
 {
-    private static $SUCCESS_MESSAGE = 'Operation completed successfully.';
-    private static $ERROR_MESSAGE = 'An error occurred while processing the request.';
+    const SUCCESS_MESSAGE = 'Operation completed successfully.';
+    const ERROR_MESSAGE = 'An error occurred while processing the request.';
+    const URL_API_QUOTABLE = "https://api.quotable.io/quotes";
 
     public static function importQuotes()
     {
@@ -20,13 +21,12 @@ class Quotes
         $page = 1;
 
         do {
-            $response = $client->get("https://api.quotable.io/quotes?page={$page}");
+            $response = $client->get(self::URL_API_QUOTABLE . "?page={$page}");
             $data = json_decode($response->getBody(), true);
 
             foreach ($data['results'] as $result) {
-                DB::table('quotes')->insert([
+                ModelQuotes::create([
                     'author' => $result['author'],
-                    "author_slug" => $result['authorSlug'],
                     'quote' => $result['content'],
                     'length' => $result['length'],
                 ]);
@@ -39,60 +39,60 @@ class Quotes
     public static function getQuotePaginate(int $perPage = 5)
     {
         $perPage = max(5, min($perPage, 20));
-        $quotes = DB::table('quotes')->paginate($perPage);
+        $quotes = ModelQuotes::paginate($perPage);
 
         if ($quotes->total() > 0) {
-            return self::responseQuotes($quotes, 'success', self::$SUCCESS_MESSAGE, 200);
-        } else {
-            return self::responseQuotes(null, 'error', self::$ERROR_MESSAGE, 404);
+            return self::response($quotes, 'success', self::SUCCESS_MESSAGE, 200);
         }
+
+        return self::response(null, 'error', self::ERROR_MESSAGE, 404);
     }
 
     public static function getRandomQuote()
     {
-        $quote = DB::table('quotes')->inRandomOrder()->first();
+        $quote = ModelQuotes::inRandomOrder()->first();
 
         if ($quote) {
-            return self::responseQuotes($quote, 'success', self::$SUCCESS_MESSAGE, 200);
-        } else {
-            return self::responseQuotes(null, 'error', self::$ERROR_MESSAGE, 404);
+            return self::response($quote, 'success', self::SUCCESS_MESSAGE, 200);
         }
+
+        return self::response(null, 'error', self::ERROR_MESSAGE, 404);
     }
 
     public static function getRandomQuoteByAuthor(string $author)
     {
-        $quote = DB::table('quotes')->where('author', $author)->inRandomOrder()->first();
+        $quote = ModelQuotes::where('author', $author)->inRandomOrder()->first();
 
         if ($quote) {
-            return self::responseQuotes($quote, 'success', self::$SUCCESS_MESSAGE, 200);
-        } else {
-            return self::responseQuotes(null, 'error', self::$ERROR_MESSAGE, 404);
+            return self::response($quote, 'success', self::SUCCESS_MESSAGE, 200);
         }
+
+        return self::response(null, 'error', self::ERROR_MESSAGE, 404);
     }
 
     public static function getRandomQuoteByLength(int $Length)
     {
-        $quote = DB::table('quotes')->whereBetween('length', [$Length - 10, $Length + 10])->inRandomOrder()->first();
+        $quote = ModelQuotes::whereBetween('length', [$Length - 10, $Length + 10])->inRandomOrder()->first();
 
         if ($quote) {
-            return self::responseQuotes($quote, 'success', self::$SUCCESS_MESSAGE, 200);
-        } else {
-            return self::responseQuotes(null, 'error', self::$ERROR_MESSAGE, 404);
+            return self::response($quote, 'success', self::SUCCESS_MESSAGE, 200);
         }
+
+        return self::response(null, 'error', self::ERROR_MESSAGE, 404);
     }
 
     public static function getRandomQuoteByKeyword(string $keyword)
     {
-        $quote = DB::table('quotes')->where('quote', 'like', "%{$keyword}%")->inRandomOrder()->first();
+        $quote = ModelQuotes::where('quote', 'like', "%{$keyword}%")->inRandomOrder()->first();
 
         if ($quote) {
-            return self::responseQuotes($quote, 'success', self::$SUCCESS_MESSAGE, 200);
-        } else {
-            return self::responseQuotes(null, 'error', self::$ERROR_MESSAGE, 404);
+            return self::response($quote, 'success', self::SUCCESS_MESSAGE, 200);
         }
+
+        return self::response(null, 'error', self::ERROR_MESSAGE, 404);
     }
 
-    private static function responseQuotes($data, $status, $message, $statusCode)
+    private static function response($data, $status, $message, $statusCode)
     {
         $response = [
             'status' => $status,

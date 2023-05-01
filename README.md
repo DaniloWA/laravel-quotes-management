@@ -1,13 +1,13 @@
-# Laravel Quotes Master
+# Laravel Quotes Management
 
-Laravel Quotes Master is a package for Laravel that allows you to fetch quotes from various quote APIs and store the retrieved data in the local database. It provides methods to retrieve quotes from the database based on different criteria, including author and length.
+Laravel Quotes Management is a package for Laravel that allows you to fetch quotes from various quote APIs and store the retrieved data in the local database. It provides methods to retrieve quotes from the database based on different criteria, including author and length.
 
 ## Installation
 
-To install Laravel Quotes Master, run the following command:
+To install Laravel Quotes Management, run the following command:
 
 ```bash
-composer require danilowa/laravel-quotes-master
+composer require danilowa/laravel-quotes-management
 ```
 
 > If the migration does not come automatically, do the steps below
@@ -30,7 +30,7 @@ php artisan vendor:publish --tag=quotes-config
 To import quotes from various quote APIs, you can use the importQuotes() method of the Quotes class:
 
 ```php
-use Danilowa\LaravelQuotesMaster\Quotes;
+use Danilowa\LaravelQuotesManagement\Quotes;
 
 Quotes::importQuotes();
 ```
@@ -44,7 +44,7 @@ To retrieve quotes from the database, you can use the following methods:
 This method returns a paginated list of quotes.
 
 ```php
-use Danilowa\LaravelQuotesMaster\Quotes;
+use Danilowa\LaravelQuotesManagement\Quotes;
 
 $quotes = Quotes::getQuotePaginate($perPage);
 ```
@@ -205,7 +205,7 @@ Where $perPage is the number of quotes per page (default is 5, maximum is 20).
 This method returns a random quote from the database.
 
 ```php
-use Danilowa\LaravelQuotesMaster\Quotes;
+use Danilowa\LaravelQuotesManagement\Quotes;
 
 $quote = Quotes::getRandomQuote();
 ```
@@ -236,7 +236,7 @@ $quote = Quotes::getRandomQuote();
 This method returns a random quote by a specific author.
 
 ```php
-use Danilowa\LaravelQuotesMaster\Quotes;
+use Danilowa\LaravelQuotesManagement\Quotes;
 
 $quote = Quotes::getRandomQuoteByAuthor($authorName);
 ```
@@ -269,7 +269,7 @@ Where $authorName is the author name.
 This method returns a random quote by a specific length.
 
 ```php
-use Danilowa\LaravelQuotesMaster\Quotes;
+use Danilowa\LaravelQuotesManagement\Quotes;
 
 $quote = Quotes::getRandomQuoteByLength($length);
 ```
@@ -308,17 +308,17 @@ If you want to use the package's service provider and facade, you can add the fo
 ```php
 'providers' => [
     // ...
-    Danilowa\LaravelQuotesMaster\QuotesServiceProvider::class,
+    Danilowa\LaravelQuotesManagement\QuotesServiceProvider::class,
 ],
 
 'aliases' => [
     // ...
-    'Quotes' => Danilowa\LaravelQuotesMaster\Facades\Quotes::class,
+    'Quotes' => Danilowa\LaravelQuotesManagement\Facades\Quotes::class,
 ],
 ```
 
-This will register the package's service provider and alias the Quotes facade to the Danilowa\LaravelQuotesMaster\Facades\Quotes class, allowing you to use the Quotes facade in your application.
+This will register the package's service provider and alias the Quotes facade to the Danilowa\LaravelQuotesManagement\Facades\Quotes class, allowing you to use the Quotes facade in your application.
 
 ## License
 
-Laravel Quotes Master is open-sourced software licensed under the MIT license.
+Laravel Quotes Management is open-sourced software licensed under the MIT license.
