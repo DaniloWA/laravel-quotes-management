@@ -24,7 +24,7 @@ class QuotesServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/path/to/migrations' => __DIR__ . '/../database/migrations',
+            __DIR__ . '/../database/migrations' => __DIR__ . '/../database/migrations',
         ], 'quotes-migration');
 
         $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
