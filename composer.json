@@ -1,0 +1,44 @@
+{
+  "name": "danilowa/laravel-quotes-master",
+  "description": "Laravel Quotes Master is a package for Laravel that allows you to fetch quotes from various quote APIs and store the retrieved data in the local database.",
+  "type": "library",
+  "keywords": [
+    "LaravelQuotesMaster",
+    "laravel",
+    "Quotes"
+  ],
+  "license": "MIT",
+  "authors": [
+    {
+      "name": "Danilo Oliveira",
+      "email": "daniloworkdev@gmail.com"
+    }
+  ],
+  "autoload": {
+    "psr-4": {
+      "Danilowa\\LaravelQuotesMaster\\": "src/"
+    }
+  },
+  "require": {
+    "php": "^8.1",
+    "guzzlehttp/guzzle": "^7.2",
+    "illuminate/support": "^10.9"
+  },
+  "require-dev": {
+    "phpunit/phpunit": "^9.0"
+  },
+  "psr-4": {
+    "App\\": "app/",
+    "Danilowa\\LaravelQuotesMaster\\": "packages/laravel-quotes-master/src/"
+  },
+  "extra": {
+    "laravel": {
+      "providers": [
+        "Danilowa\\LaravelQuotesMaster\\QuotesServiceProvider"
+      ],
+      "aliases": {
+        "Quotes": "Danilowa\\LaravelQuotesMaster\\Quotes"
+      }
+    }
+  }
+}
