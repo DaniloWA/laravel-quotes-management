@@ -16,7 +16,7 @@ class QuotesServiceProvider extends ServiceProvider
         // ...
     }
 
-    /**
+    /**;;
      * Bootstrap services.
      *
      * @return void
@@ -24,14 +24,14 @@ class QuotesServiceProvider extends ServiceProvider
     public function boot()
     {
         $this->publishes([
-            __DIR__ . '/../config' => config_path(),
+            __DIR__ . '/config' => config_path(),
         ], 'config');
 
         $this->app->booted(function () {
             $this->publishes([
-                __DIR__ . '/../database/migrations' => database_path('migrations'),
+                __DIR__ . '/database/migrations' => database_path('migrations'),
             ], 'quotes-migration');
-            $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
+            $this->loadMigrationsFrom(__DIR__ . '/database/migrations');
         });
     }
 };
