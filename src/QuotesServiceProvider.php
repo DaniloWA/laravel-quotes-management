@@ -30,9 +30,8 @@ class QuotesServiceProvider extends ServiceProvider
         $this->app->booted(function () {
             $this->publishes([
                 __DIR__ . '/../database/migrations' => database_path('migrations'),
-            ], 'migrations');
-
+            ], 'quotes-migration');
             $this->loadMigrationsFrom(__DIR__ . '/../database/migrations');
         });
     }
-}
+};
